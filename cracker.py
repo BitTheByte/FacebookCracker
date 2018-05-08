@@ -64,4 +64,4 @@ while(1):
 		for n in r:
 			open("hits.txt","a").write(str(n)+"\n")
 		old = len(validhits)
-		print "[!] You Have {} Hits".format(len(vaildhits))
+		print "[!] You Have {} Hits".format(len(validhits))
