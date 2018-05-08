@@ -59,7 +59,7 @@ while(1):
 	if len(validhits) != old:
 		for n in validhits:
 			open("hits.txt","a").write(str(n)+"\n")
-		r = set(open("hits.txt","r").read().split())
+		r = set(open("hits.txt","r").read().split("\n"))
 		open("hits.txt","w").write("")
 		for n in r:
 			open("hits.txt","a").write(str(n)+"\n")
